@@ -1,37 +1,33 @@
 from graphics import Point, Line, Window
 
 class Cell:
-    def __init__(self, top_left: Point, bot_right: Point, window: Window):
+    def __init__(self, window: Window):
         self._window = window
-        self._x1 = top_left.x
-        self._y1 = top_left.y
-        self._x2 = bot_right.x
-        self._y2 = bot_right.y
+        self._x1 = None
+        self._y1 = None
+        self._x2 = None
+        self._y2 = None
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
         self.has_bottom_wall = True
     
-    def draw(self):
+    def draw(self, x1, y1, x2, y2):
+        self._x1 = x1
+        self._y1 = y1
+        self._x2 = x2
+        self._y2 = y2
         if self.has_left_wall:
-            top_left_point = Point(self._x1, self._y2)
-            bot_left_point = Point(self._x1, self._y1)
-            left_wall = Line(top_left_point, bot_left_point)
+            left_wall = Line(Point(x1, y2), Point(x1, y1))
             self._window.draw_line(left_wall, "black")
         if self.has_right_wall:
-            top_right_point = Point(self._x2, self._y1)
-            bot_right_point = Point(self._x2, self._y2)
-            right_wall = Line(top_right_point, bot_right_point)
+            right_wall = Line(Point(x2, y1), Point(x2, y2))
             self._window.draw_line(right_wall, "black")
         if self.has_top_wall:
-            top_left_point = Point(self._x1, self._y1)
-            top_right_point = Point(self._x2, self._y1)
-            top_wall = Line(top_left_point, top_right_point)
+            top_wall = Line(Point(x1, y1), Point(x2, y1))
             self._window.draw_line(top_wall, "black")
         if self.has_bottom_wall:
-            bot_left_point = Point(self._x1, self._y2)
-            bot_right_point = Point(self._x2, self._y2)
-            bot_wall = Line(bot_left_point, bot_right_point)
+            bot_wall = Line(Point(x1, y2), Point(x2, y2))
             self._window.draw_line(bot_wall, "black")
     
     def draw_move(self, to_cell, undo=False):
